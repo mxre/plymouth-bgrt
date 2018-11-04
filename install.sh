@@ -2,7 +2,7 @@
 
 # Configurables
 PLYMOUTH_DIR=/usr/share/plymouth/themes
-PLYMOUTH_THEME=plymouth-bgrt
+PLYMOUTH_THEME=bgrt
 
 # Sanity Checks
 if [[ ! -r /sys/firmware/acpi/bgrt/image ]]; then
@@ -19,7 +19,7 @@ command -v awk >/dev/null 2>&1 || { echo >&2 "I require awk but it's not install
 convert /sys/firmware/acpi/bgrt/image theme/bgrt.png
 
 # Replace the placeholders with the image offsets
-< theme/bgrt.script.in awk \
+< bgrt.script.in awk \
 	-v BGRTLEFT=$(</sys/firmware/acpi/bgrt/xoffset) \
 	-v BGRTTOP=$(</sys/firmware/acpi/bgrt/yoffset) \
 	'{gsub (/\$BGRTLEFT\$/, BGRTLEFT);
@@ -29,9 +29,8 @@ convert /sys/firmware/acpi/bgrt/image theme/bgrt.png
 # Finally, install the theme
 
 install -d ${PLYMOUTH_DIR}/${PLYMOUTH_THEME}
-install -m644 theme/plymouth-bgrt.plymouth ${PLYMOUTH_DIR}/${PLYMOUTH_THEME}/
-install -m644 theme/bgrt.{script,png} ${PLYMOUTH_DIR}/${PLYMOUTH_THEME}/
-install -m644 theme/{box,bullet,entry,lock,progress_{bar,box}}.png ${PLYMOUTH_DIR}/${PLYMOUTH_THEME}/
+install -m644 theme/bgrt.{plymouth,script} ${PLYMOUTH_DIR}/${PLYMOUTH_THEME}/
+install -m644 theme/*.png ${PLYMOUTH_DIR}/${PLYMOUTH_THEME}/
 
 echo "Install complete."
 echo "To use this theme, run as root:"

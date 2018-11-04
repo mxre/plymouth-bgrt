@@ -1,23 +1,24 @@
 
-# plymouth-bgrt theme
+# plymouth bgrt theme
 
 A theme for plymouth which uses your system's UEFI logo (aka BGRT).
 
 ## Installation
 
 ```sh
-    sudo ./install.sh	# Fetches your BGRT, adjusts the theme to suit and installs it.
-    sudo plymouth-set-default-theme -R plymouth-bgrt
+sudo ./install.sh
+sudo plymouth-set-default-theme -R bgrt
 ```
-
-## GRUB Theme
-
-You may also want to pair this with my [GRUB theme](/darac/grub-bgrt).
 
 ## License
 
-All the files in this project are distributed under the [GNU General Public License](./LICENSE).
+All the files in this project are distributed under the [MIT](./LICENSE).
 
 ## Author
 
-Paul Saunders
+- Max Resch
+
+- Script and Idea by [Paul Saunders](https://github.com/darac/plymouth-bgrt)
+
+- Spinner: https://github.com/t1meshift/bootsplash-theme-bgrt
+
