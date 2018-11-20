@@ -9,7 +9,7 @@ bgrt_sprite.SetPosition($BGRTLEFT$, $BGRTTOP$, 1);
 throbber = 1;
 
 mode = Plymouth.GetMode();
-if (mode == "suspend" || mode == "resume") {
+if (mode == "suspend" || mode == "resume" | mode == "updates") {
   throbber = 0;
 }
 
@@ -144,7 +144,9 @@ if (throbber == 1) {
   progress_bar.sprite.SetPosition(progress_bar.x, progress_bar.y, 2);
 
   fun progress_callback (duration, progress) {
-    if (progress_bar.image.GetWidth () != Math.Int (progress_bar.original_image.GetWidth () * progress)) {
+    if (glbal.status == "quit") {
+      progress_bar.sprite.SetImage(progress_bar.original_image);
+    } else if (progress_bar.image.GetWidth () != Math.Int (progress_bar.original_image.GetWidth () * progress)) {
       progress_bar.image = progress_bar.original_image.Scale(progress_bar.original_image.GetWidth(progress_bar.original_image) * progress, progress_bar.original_image.GetHeight());
       progress_bar.sprite.SetImage (progress_bar.image);
     }
@@ -156,9 +158,13 @@ if (throbber == 1) {
 #----------------------------------------- Quit --------------------------------
 
 fun quit_callback () {
-  progress_box.sprite.SetOpacity (0);
-  progress_bar.sprite.SetOpacity (0);
-  anim_sprite.SetOpacity (0);
+  global.status = "quit";
+  if (global.throbber == 1) {
+    anim_sprite.SetOpacity (0);
+  } else {
+    progress_box.sprite.SetOpacity (0);
+    progress_bar.sprite.SetOpacity (0);
+  }
 }
 
 Plymouth.SetQuitFunction(quit_callback);
@@ -168,7 +174,7 @@ Plymouth.SetQuitFunction(quit_callback);
 message_sprite = Sprite();
 
 fun message_callback (text) {
-  prompt = Image.Text(text, 1, 1, 1, 1, "Sans 18");
+  prompt = Image.Text(text, 1, 1, 1, 1, "Noto Sans Light 28px");
   message_sprite.SetPosition((Window.GetWidth() - prompt.GetWidth()) / 2, Window.GetHeight() * 0.65, 2);
   message_sprite.SetImage(prompt);
 }
@@ -179,3 +185,6 @@ if (mode == "shutdown") {
   message_callback("Shutting down");
 }
 
+if (mode == "updates") {
+  message_callback("Installing System Updates");
+}
